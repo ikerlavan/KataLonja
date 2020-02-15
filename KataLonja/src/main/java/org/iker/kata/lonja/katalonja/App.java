@@ -3,7 +3,7 @@ package org.iker.kata.lonja.katalonja;
 import java.io.ObjectInputStream.GetField;
 
 import org.apache.logging.log4j.*;
-import org.iker.kata.lonja.katalonja.core.Generador;
+import org.iker.kata.lonja.katalonja.core.ComparadorDeMercados;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 
 
@@ -20,7 +20,7 @@ public class App
         /*El array de primera carga: vieiras, pulpo, centollo*/
     	int[] primeraCarga = new int[]{50, 100, 50};
     	
-        Generador generador = new Generador();
+        ComparadorDeMercados generador = new ComparadorDeMercados();
         String mercadoMasBeneficioso = generador.getMaximoBeneficio(primeraCarga, PESO_MAXIMO);
         
         log.debug(mercadoMasBeneficioso);

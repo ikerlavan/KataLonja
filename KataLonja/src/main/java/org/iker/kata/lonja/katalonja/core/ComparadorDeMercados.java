@@ -11,11 +11,11 @@ import org.iker.kata.lonja.katalonja.estatico.GastosFijos;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.utilidades.Utiles;
 
-public class Generador {
+public class ComparadorDeMercados {
 
-	final static Logger log = LogManager.getLogger(Generador.class);
+	final static Logger log = LogManager.getLogger(ComparadorDeMercados.class);
 	
-	public Generador() {
+	public ComparadorDeMercados() {
 		
 	}
 	
