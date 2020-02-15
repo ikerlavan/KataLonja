@@ -10,12 +10,12 @@ public class Mercado {
 	private float pulpo;
 	private float centollos;
 	
-	public Mercado(Mercados mercado) {
-		this.ciudad = mercado.getCiudad();
-		this.distancia = mercado.getDistancia();
-		this.vieiras = mercado.getVieiras();
-		this.pulpo = mercado.getPulpo();
-		this.centollos = mercado.getCentollos();
+	public Mercado(String ciudad, int distancia, float vieiras, float pulpo, float centollos) {
+		this.ciudad = ciudad;
+		this.distancia = distancia;
+		this.vieiras = vieiras;
+		this.pulpo = pulpo;
+		this.centollos = centollos;
 	}
 	
 	public String getCiudad() {

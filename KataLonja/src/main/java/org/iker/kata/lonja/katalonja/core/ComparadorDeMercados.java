@@ -4,19 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.iker.kata.lonja.katalonja.dominio.Mercado;
 import org.iker.kata.lonja.katalonja.estatico.GastosFijos;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
-import org.iker.kata.lonja.katalonja.utilidades.Utiles;
+import org.iker.kata.lonja.katalonja.service.MercadoService;
+import org.iker.kata.lonja.katalonja.service.impl.MercadoServiceImpl;
 
 public class ComparadorDeMercados {
 
 	final static Logger log = LogManager.getLogger(ComparadorDeMercados.class);
 	
+	private MercadoService mercadoService;
+	
 	public ComparadorDeMercados() {
-		
+		this.setMercadoService(new MercadoServiceImpl());
 	}
 	
 	public String getMaximoBeneficio(int[] primeraCarga, int pesoMaximo) throws ExceedMaxWeightException{
@@ -27,7 +30,7 @@ public class ComparadorDeMercados {
 		
 		Map<String, Float> beneficiosPorMercado = new HashMap<String, Float>();
 		
-		List<Mercado> lMercados = Utiles.getListaMercados();
+		List<Mercado> lMercados = mercadoService.getMercadosInfo();
 		
 		for (Mercado mercado : lMercados) {
 			beneficiosPorMercado.put(mercado.getCiudad(), calcularBeneficio(mercado, primeraCarga));
@@ -68,7 +71,7 @@ public class ComparadorDeMercados {
 	private float calcularBeneficioVenta(Mercado mercado, int[] primeraCarga) {
 		log.debug(mercado.getCiudad());
 //		log.debug(depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()));
-		log.debug(depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]);
+		log.debug("depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]" + depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]);
 		log.debug(depreciacionProducto(mercado.getPulpo(), mercado.getDistancia()) * primeraCarga[1]);
 		log.debug(depreciacionProducto(mercado.getCentollos(), mercado.getDistancia()) * primeraCarga[2]);
 		
@@ -87,6 +90,8 @@ public class ComparadorDeMercados {
 		return precio - (precio * depreciacionPorKm * GastosFijos.PORCENTAJE_DEPRECIACION_POR_100_KM / 100);
 	}
 	
-	
+	public void setMercadoService(MercadoService mercadoService) {
+        this.mercadoService = mercadoService;
+    }
 	
 }
