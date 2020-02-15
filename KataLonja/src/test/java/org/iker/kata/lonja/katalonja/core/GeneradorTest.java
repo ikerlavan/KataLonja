@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.iker.kata.lonja.katalonja.excepciones.*;
+import org.iker.kata.lonja.katalonja.core.Generador;
+import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 
 public class GeneradorTest {
 

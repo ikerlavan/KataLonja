@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.*;
 import org.iker.kata.lonja.katalonja.dominio.Mercado;
 import org.iker.kata.lonja.katalonja.estatico.GastosFijos;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
@@ -12,7 +13,7 @@ import org.iker.kata.lonja.katalonja.utilidades.Utiles;
 
 public class Generador {
 
-	final static Logger log = Logger.getLogger(Generador.class);
+	final static Logger log = LogManager.getLogger(Generador.class);
 	
 	public Generador() {
 		

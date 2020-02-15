@@ -1,13 +1,15 @@
 package org.iker.kata.lonja.katalonja;
 
-import org.apache.log4j.Logger;
+import java.io.ObjectInputStream.GetField;
+
+import org.apache.logging.log4j.*;
 import org.iker.kata.lonja.katalonja.core.Generador;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 
 
 public class App 
 {
-	final static Logger log = Logger.getLogger(App.class);
+	final static Logger log = LogManager.getLogger(App.class);
 	
 	private static final int PESO_MAXIMO = 200;
 	
