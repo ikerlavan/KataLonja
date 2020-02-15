@@ -9,7 +9,6 @@ public class Mercado {
 	private float vieiras;
 	private float pulpo;
 	private float centollos;
-	private int depreciacion;
 	
 	public Mercado(Mercados mercado) {
 		this.ciudad = mercado.getCiudad();
@@ -34,9 +33,6 @@ public class Mercado {
 	public float getCentollos() {
 		return centollos;
 	}
-	public int getDepreciacion() {
-		return depreciacion;
-	}
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
@@ -52,9 +48,4 @@ public class Mercado {
 	public void setCentollos(float centollos) {
 		this.centollos = centollos;
 	}
-	public void setDepreciacion(int depreciacion) {
-		this.depreciacion = depreciacion;
-	}
-	
-	
 }
