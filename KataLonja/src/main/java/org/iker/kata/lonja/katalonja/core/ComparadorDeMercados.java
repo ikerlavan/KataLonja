@@ -61,6 +61,7 @@ public class ComparadorDeMercados {
 			peso += t.getPeso();
 		}
 		if(peso > camion.getPesomaximoSoportado()) {
+			log.error("El peso excede el máximo permitido");
 			return true;
 		}
 		return false;
@@ -87,7 +88,6 @@ public class ComparadorDeMercados {
 	
 	private float depreciacionProducto(float precio, int km) {
 		float depreciacionPorKm = km/100;
-		log.debug((float)precio - (precio * depreciacionPorKm * GastosFijos.PORCENTAJE_DEPRECIACION_POR_100_KM/100 ));
 		return precio - (precio * depreciacionPorKm * GastosFijos.PORCENTAJE_DEPRECIACION_POR_100_KM / 100);
 	}
 	

@@ -37,7 +37,6 @@ public class ComparadorDeMercadosTest {
 	@Before
 	public void setup(){
 		Vehiculo camion = new Vehiculo(PESO_MAXIMO);
-		mercadoService = Mockito.mock(MercadoService.class);
 		comparadorDeMercados = new ComparadorDeMercados(camion);
 		comparadorDeMercados.setMercadoService(mercadoService);
 	}
@@ -52,7 +51,6 @@ public class ComparadorDeMercadosTest {
 			String c = comparadorDeMercados.getMaximoBeneficio(getListaProductos());
 			assertEquals(c, ciudad);
 		} catch (ExceedMaxWeightException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -76,7 +74,6 @@ public class ComparadorDeMercadosTest {
 			System.out.println(c);
 			assertEquals(c, ciudad);
 		} catch (ExceedMaxWeightException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

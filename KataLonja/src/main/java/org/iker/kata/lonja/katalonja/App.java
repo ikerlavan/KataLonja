@@ -22,9 +22,6 @@ public class App
 	
     public static void main( String[] args ) throws ExceedMaxWeightException
     {
-        /*El array de primera carga: vieiras, pulpo, centollo*/
-//    	int[] primeraCarga = new int[]{50, 100, 50};
-    	
     	List<Producto> primeraCarga = new ArrayList<Producto>();
     	Producto vieiras = new Producto(Articulo.VIEIRAS.getNombre(), 50);
     	Producto pulpo = new Producto(Articulo.PULPO.getNombre(), 100);
