@@ -7,24 +7,28 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.iker.kata.lonja.katalonja.dominio.Mercado;
+import org.iker.kata.lonja.katalonja.dominio.Producto;
+import org.iker.kata.lonja.katalonja.dominio.Vehiculo;
 import org.iker.kata.lonja.katalonja.estatico.GastosFijos;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
 import org.iker.kata.lonja.katalonja.service.impl.MercadoServiceImpl;
+import org.iker.kata.lonja.katalonja.utilidades.UtilesLista;
 
 public class ComparadorDeMercados {
 
 	final static Logger log = LogManager.getLogger(ComparadorDeMercados.class);
 	
 	private MercadoService mercadoService;
+	private Vehiculo camion;
 	
-	public ComparadorDeMercados() {
-		this.setMercadoService(new MercadoServiceImpl());
+	public ComparadorDeMercados(Vehiculo camion) {
+		this.camion = camion;
 	}
 	
-	public String getMaximoBeneficio(int[] primeraCarga, int pesoMaximo) throws ExceedMaxWeightException{
+	public String getMaximoBeneficio(List<Producto> primeraCarga) throws ExceedMaxWeightException{
 		
-		if(superaPesoMaximo(primeraCarga, pesoMaximo)) {
+		if(superaPesoMaximo(primeraCarga)) {
 			throw new ExceedMaxWeightException();
 		}
 		
@@ -51,33 +55,30 @@ public class ComparadorDeMercados {
 		return maxEntry.getKey();
 	}
 	
-	private boolean superaPesoMaximo(int[] primeraCarga, int pesoMaximo) {
+	private boolean superaPesoMaximo(List<Producto> primeraCarga) {
 		int peso = 0;
-		for(int t : primeraCarga) {
-			peso += t;
+		for(Producto t : primeraCarga) {
+			peso += t.getPeso();
 		}
-		if(peso > pesoMaximo) {
+		if(peso > camion.getPesomaximoSoportado()) {
 			return true;
 		}
 		return false;
 		
 	}
 
-	private Float calcularBeneficio(Mercado mercado, int[] primeraCarga) {
+	private Float calcularBeneficio(Mercado mercado, List<Producto> primeraCarga) {
 		float beneficio = calcularBeneficioVenta(mercado, primeraCarga) - calcularGastoFijoYPorKm(mercado);
 		return beneficio;
 	}
 	
-	private float calcularBeneficioVenta(Mercado mercado, int[] primeraCarga) {
-		log.debug(mercado.getCiudad());
-//		log.debug(depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()));
-		log.debug("depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]" + depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]);
-		log.debug(depreciacionProducto(mercado.getPulpo(), mercado.getDistancia()) * primeraCarga[1]);
-		log.debug(depreciacionProducto(mercado.getCentollos(), mercado.getDistancia()) * primeraCarga[2]);
+	private float calcularBeneficioVenta(Mercado mercado, List<Producto> primeraCarga) {
+		Float beneficio = new Float(0);
+		for(Producto pro : primeraCarga) {
+			beneficio += depreciacionProducto(UtilesLista.getPescadoByName(mercado.getArticulos(), pro.getNombre()).getPrecio(), mercado.getDistancia()) * pro.getPeso();
+		}
 		
-		return (depreciacionProducto(mercado.getVieiras(), mercado.getDistancia()) * primeraCarga[0]) +
-				(depreciacionProducto(mercado.getPulpo(), mercado.getDistancia()) * primeraCarga[1]) +
-						(depreciacionProducto(mercado.getCentollos(), mercado.getDistancia()) * primeraCarga[2]);
+		return beneficio;
 	}
 
 	private int calcularGastoFijoYPorKm(Mercado mercado) {
