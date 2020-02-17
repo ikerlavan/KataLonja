@@ -13,6 +13,7 @@ public class MercadoServiceImpl implements MercadoService {
 
 	@Override
 	public List<Mercado> getMercadosInfo() {
+		
 		List<Mercado> lMercados = new ArrayList<Mercado>();
 		
 		List<Pescado> pescados = Arrays.asList(new Pescado(Articulo.VIEIRAS.getNombre(), 600),

@@ -14,13 +14,11 @@ import org.iker.kata.lonja.katalonja.dominio.Vehiculo;
 import org.iker.kata.lonja.katalonja.estatico.Articulo;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
-import org.iker.kata.lonja.katalonja.service.impl.MercadoServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,17 +31,16 @@ public class ComparadorDeMercadosTest {
 	@Mock
 	private MercadoService mercadoService;
 
-	
 	@Before
-	public void setup(){
+	public void setup() {
 		Vehiculo camion = new Vehiculo(PESO_MAXIMO);
 		comparadorDeMercados = new ComparadorDeMercados(camion);
 		comparadorDeMercados.setMercadoService(mercadoService);
 	}
-	
+
 	@Test
 	public void shouldBeLisboaBestBenefit() {
-		
+
 		when(mercadoService.getMercadosInfo()).thenReturn(getListaMercados());
 
 		String ciudad = "Lisboa";
@@ -58,14 +55,14 @@ public class ComparadorDeMercadosTest {
 
 	@Test(expected = ExceedMaxWeightException.class)
 	public void shouldReturnException() throws ExceedMaxWeightException {
-		
+
 		comparadorDeMercados.getMaximoBeneficio(getListaProductosSuperaPesoMaximo());
 
 	}
 
 	@Test
 	public void shouldBeMadridBestBenefit() {
-		
+
 		when(mercadoService.getMercadosInfo()).thenReturn(getListaMercadosOtraCiudad());
 
 		String ciudad = "Madrid";
@@ -78,7 +75,6 @@ public class ComparadorDeMercadosTest {
 		}
 	}
 
-	
 	private List<Producto> getListaProductos() {
 		List<Producto> lProductos = new ArrayList<Producto>();
 		Producto vieiras = new Producto(Articulo.VIEIRAS.getNombre(), 50);
@@ -122,25 +118,25 @@ public class ComparadorDeMercadosTest {
 
 		return lMercados;
 	}
-	
+
 	private List<Mercado> getListaMercadosOtraCiudad() {
 		List<Mercado> lMercados = new ArrayList<Mercado>();
 
 		List<Pescado> pescados = Arrays.asList(new Pescado(Articulo.VIEIRAS.getNombre(), 400),
 				new Pescado(Articulo.PULPO.getNombre(), 0), new Pescado(Articulo.CENTOLLO.getNombre(), 500));
-		
+
 		Mercado lisboa = new Mercado("Lisboa", 600, pescados);
 		lMercados.add(lisboa);
 
 		pescados = Arrays.asList(new Pescado(Articulo.VIEIRAS.getNombre(), 450),
 				new Pescado(Articulo.PULPO.getNombre(), 120), new Pescado(Articulo.CENTOLLO.getNombre(), 0));
-		
+
 		Mercado bcn = new Mercado("Barcelona", 1100, pescados);
 		lMercados.add(bcn);
 
 		pescados = Arrays.asList(new Pescado(Articulo.VIEIRAS.getNombre(), 500),
 				new Pescado(Articulo.PULPO.getNombre(), 200), new Pescado(Articulo.CENTOLLO.getNombre(), 600));
-		
+
 		Mercado madrid = new Mercado("Madrid", 800, pescados);
 
 		lMercados.add(madrid);
