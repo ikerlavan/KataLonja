@@ -2,6 +2,10 @@ package org.iker.kata.lonja.katalonja.dominio;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 public class Mercado {
 
 	private String ciudad;

@@ -1,5 +1,6 @@
 package org.iker.kata.lonja.katalonja.dominio;
 
+
 public class Pescado {
 
 	public Pescado(String nombre, float precio) {

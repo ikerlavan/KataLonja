@@ -13,17 +13,27 @@ import org.iker.kata.lonja.katalonja.estatico.GastosFijos;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
 import org.iker.kata.lonja.katalonja.utilidades.UtilesLista;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ComparadorDeMercados {
 
 	final static Logger log = LogManager.getLogger(ComparadorDeMercados.class);
 
+	@Autowired
 	private MercadoService mercadoService;
+	
 	private Vehiculo camion;
 
-	public ComparadorDeMercados(Vehiculo camion) {
+//	public ComparadorDeMercados(Vehiculo camion) {
+//		this.camion = camion;
+//	}
+	
+	public void setVehiculo(Vehiculo camion) {
 		this.camion = camion;
 	}
+
 
 	public String getMaximoBeneficio(List<Producto> primeraCarga) throws ExceedMaxWeightException {
 

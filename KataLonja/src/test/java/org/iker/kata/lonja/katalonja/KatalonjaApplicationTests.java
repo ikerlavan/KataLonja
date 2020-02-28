@@ -1,12 +1,14 @@
-package org.iker.kata.lonja.katalonja.core;
+package org.iker.kata.lonja.katalonja;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.iker.kata.lonja.katalonja.core.ComparadorDeMercados;
 import org.iker.kata.lonja.katalonja.dominio.Mercado;
 import org.iker.kata.lonja.katalonja.dominio.Pescado;
 import org.iker.kata.lonja.katalonja.dominio.Producto;
@@ -14,38 +16,43 @@ import org.iker.kata.lonja.katalonja.dominio.Vehiculo;
 import org.iker.kata.lonja.katalonja.estatico.Articulo;
 import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ComparadorDeMercadosTest {
+
+@SpringBootTest
+class KatalonjaApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
 	private static final int PESO_MAXIMO = 200;
 
 	@InjectMocks
-	private ComparadorDeMercados comparadorDeMercados;
+	private ComparadorDeMercados comparadorDeMercado;
 
 	@Mock
 	private MercadoService mercadoService;
 
-	@Before
+	@BeforeEach
 	public void setup() {
-		Vehiculo camion = new Vehiculo(PESO_MAXIMO);
-		comparadorDeMercados = new ComparadorDeMercados(camion);
-		comparadorDeMercados.setMercadoService(mercadoService);
+		comparadorDeMercado.setVehiculo(new Vehiculo(PESO_MAXIMO));
 	}
 
 	@Test
 	public void shouldBeLisboaBestBenefit() {
 
+		
 		when(mercadoService.getMercadosInfo()).thenReturn(getListaMercados());
 
 		String ciudad = "Lisboa";
 		try {
-			String c = comparadorDeMercados.getMaximoBeneficio(getListaProductos());
+			String c = comparadorDeMercado.getMaximoBeneficio(getListaProductos());
 			assertEquals(c, ciudad);
 		} catch (ExceedMaxWeightException e) {
 			e.printStackTrace();
@@ -53,10 +60,12 @@ public class ComparadorDeMercadosTest {
 
 	}
 
-	@Test(expected = ExceedMaxWeightException.class)
+	@Test
 	public void shouldReturnException() throws ExceedMaxWeightException {
-
-		comparadorDeMercados.getMaximoBeneficio(getListaProductosSuperaPesoMaximo());
+		
+		assertThrows(ExceedMaxWeightException.class, () -> {
+			comparadorDeMercado.getMaximoBeneficio(getListaProductosSuperaPesoMaximo());
+	    });
 
 	}
 
@@ -67,15 +76,14 @@ public class ComparadorDeMercadosTest {
 
 		String ciudad = "Madrid";
 		try {
-			String c = comparadorDeMercados.getMaximoBeneficio(getListaProductos());
-			System.out.println(c);
+			String c = comparadorDeMercado.getMaximoBeneficio(getListaProductos());
 			assertEquals(c, ciudad);
 		} catch (ExceedMaxWeightException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private List<Producto> getListaProductos() {
+	protected List<Producto> getListaProductos() {
 		List<Producto> lProductos = new ArrayList<Producto>();
 		Producto vieiras = new Producto(Articulo.VIEIRAS.getNombre(), 50);
 		Producto pulpo = new Producto(Articulo.PULPO.getNombre(), 100);
@@ -97,7 +105,7 @@ public class ComparadorDeMercadosTest {
 		return lProductos;
 	}
 
-	private List<Mercado> getListaMercados() {
+	protected List<Mercado> getListaMercados() {
 		List<Mercado> lMercados = new ArrayList<Mercado>();
 
 		List<Pescado> pescados = Arrays.asList(new Pescado(Articulo.VIEIRAS.getNombre(), 600),

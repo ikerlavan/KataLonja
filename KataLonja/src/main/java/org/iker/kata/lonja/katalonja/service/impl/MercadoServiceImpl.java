@@ -8,7 +8,9 @@ import org.iker.kata.lonja.katalonja.dominio.Mercado;
 import org.iker.kata.lonja.katalonja.dominio.Pescado;
 import org.iker.kata.lonja.katalonja.estatico.Articulo;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MercadoServiceImpl implements MercadoService {
 
 	@Override
