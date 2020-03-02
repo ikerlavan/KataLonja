@@ -1,8 +1,10 @@
 package org.iker.kata.lonja.katalonja.core;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +18,7 @@ import org.iker.kata.lonja.katalonja.utilidades.UtilesLista;
 
 public class ComparadorDeMercados {
 
-	final static Logger log = LogManager.getLogger(ComparadorDeMercados.class);
+	private static final Logger log = LogManager.getLogger(ComparadorDeMercados.class);
 
 	private MercadoService mercadoService;
 	private Vehiculo camion;
@@ -31,7 +33,7 @@ public class ComparadorDeMercados {
 			throw new ExceedMaxWeightException();
 		}
 
-		Map<String, Float> beneficiosPorMercado = new HashMap<String, Float>();
+		Map<String, Float> beneficiosPorMercado = new HashMap<>();
 
 		List<Mercado> lMercados = mercadoService.getMercadosInfo();
 
@@ -41,15 +43,11 @@ public class ComparadorDeMercados {
 
 		log.debug(beneficiosPorMercado);
 
-		Map.Entry<String, Float> maxEntry = null;
-
-		for (Map.Entry<String, Float> entry : beneficiosPorMercado.entrySet()) {
-			if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
-				maxEntry = entry;
-			}
-		}
-
-		return maxEntry.getKey();
+		Optional<Map.Entry<String, Float>> maxEntry = 
+				beneficiosPorMercado.entrySet().stream()
+					.max(Comparator.comparing(Map.Entry::getValue));
+		
+		return maxEntry.isPresent()?maxEntry.get().getKey():null;
 	}
 
 	private boolean superaPesoMaximo(List<Producto> primeraCarga) {
@@ -66,8 +64,8 @@ public class ComparadorDeMercados {
 	}
 
 	private Float calcularBeneficio(Mercado mercado, List<Producto> primeraCarga) {
-		float beneficio = calcularBeneficioVenta(mercado, primeraCarga) - calcularGastoFijoYPorKm(mercado);
-		return beneficio;
+
+		return calcularBeneficioVenta(mercado, primeraCarga) - calcularGastoFijoYPorKm(mercado);
 	}
 
 	private float calcularBeneficioVenta(Mercado mercado, List<Producto> primeraCarga) {
@@ -86,7 +84,7 @@ public class ComparadorDeMercados {
 	}
 
 	private float depreciacionProducto(float precio, int km) {
-		float depreciacionPorKm = km / 100;
+		float depreciacionPorKm = (float) km / 100;
 		return precio - (precio * depreciacionPorKm * GastosFijos.PORCENTAJE_DEPRECIACION_POR_100_KM / 100);
 	}
 
