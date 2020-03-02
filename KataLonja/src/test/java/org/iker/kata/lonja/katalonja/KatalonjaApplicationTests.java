@@ -18,6 +18,7 @@ import org.iker.kata.lonja.katalonja.excepciones.ExceedMaxWeightException;
 import org.iker.kata.lonja.katalonja.service.MercadoService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -45,15 +46,15 @@ class KatalonjaApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Debería retornar Lisboa")
 	public void shouldBeLisboaBestBenefit() {
-
 		
 		when(mercadoService.getMercadosInfo()).thenReturn(getListaMercados());
 
 		String ciudad = "Lisboa";
+		
 		try {
-			String c = comparadorDeMercado.getMaximoBeneficio(getListaProductos());
-			assertEquals(c, ciudad);
+			assertEquals(comparadorDeMercado.getMaximoBeneficio(getListaProductos()), ciudad);
 		} catch (ExceedMaxWeightException e) {
 			e.printStackTrace();
 		}
@@ -61,23 +62,23 @@ class KatalonjaApplicationTests {
 	}
 
 	@Test
-	public void shouldReturnException() throws ExceedMaxWeightException {
+	@DisplayName("Debería retornar la excepción ExceedMaxWeightException")
+	public void shouldReturnException() {
 		
 		assertThrows(ExceedMaxWeightException.class, () -> {
 			comparadorDeMercado.getMaximoBeneficio(getListaProductosSuperaPesoMaximo());
 	    });
-
 	}
 
 	@Test
+	@DisplayName("Debería retornar Madrid")
 	public void shouldBeMadridBestBenefit() {
 
 		when(mercadoService.getMercadosInfo()).thenReturn(getListaMercadosOtraCiudad());
 
 		String ciudad = "Madrid";
 		try {
-			String c = comparadorDeMercado.getMaximoBeneficio(getListaProductos());
-			assertEquals(c, ciudad);
+			assertEquals(comparadorDeMercado.getMaximoBeneficio(getListaProductos()), ciudad);
 		} catch (ExceedMaxWeightException e) {
 			e.printStackTrace();
 		}
