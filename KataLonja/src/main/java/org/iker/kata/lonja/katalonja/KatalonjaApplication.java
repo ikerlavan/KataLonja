@@ -31,8 +31,8 @@ public class KatalonjaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		List<Producto> primeraCarga = new ArrayList<Producto>();
+
+		List<Producto> primeraCarga = new ArrayList<>();
 		Producto vieiras = new Producto(Articulo.VIEIRAS.getNombre(), 50);
 		Producto pulpo = new Producto(Articulo.PULPO.getNombre(), 100);
 		Producto centollo = new Producto(Articulo.CENTOLLO.getNombre(), 50);
@@ -43,7 +43,6 @@ public class KatalonjaApplication implements CommandLineRunner {
 		Vehiculo camion = new Vehiculo(PESO_MAXIMO);
 
 		generador.setVehiculo(camion);
-//		generador.setMercadoService(new MercadoServiceImpl());
 		String mercadoMasBeneficioso = generador.getMaximoBeneficio(primeraCarga);
 
 		log.info("El mercado que más beneficios va a ofrecer es el de {}", mercadoMasBeneficioso);
